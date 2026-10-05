@@ -26,6 +26,9 @@ import 'screens/customers/customer_form_screen.dart';
 import 'screens/customers/customer_detail_screen.dart';
 import 'state/document_provider.dart';
 import 'screens/documents/documents_screen.dart';
+import 'state/expense_provider.dart';
+import 'screens/approvals/approvals_screen.dart';
+import 'screens/approvals/approval_detail_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +50,7 @@ class NexaAdminApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
         ChangeNotifierProvider(create: (_) => CustomerProvider()),
         ChangeNotifierProvider(create: (_) => DocumentProvider()),
+        ChangeNotifierProvider(create: (_) => ExpenseProvider()),
       ],
       child: MaterialApp(
         title: 'NEXA Admin Lite',
@@ -69,6 +73,8 @@ class NexaAdminApp extends StatelessWidget {
           AppRoutes.customerForm: (context) => const CustomerFormScreen(),
           AppRoutes.customerDetail: (context) => const CustomerDetailScreen(),
           AppRoutes.documents: (context) => const DocumentsScreen(),
+          AppRoutes.approvals: (context) => const ApprovalsScreen(),
+          AppRoutes.approvalDetail: (context) => const ApprovalDetailScreen(),
         },
       ),
     );

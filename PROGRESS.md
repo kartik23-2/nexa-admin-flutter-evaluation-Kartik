@@ -28,12 +28,12 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 8. Attendance & GPS Geofence Test | 9 | 9 | 0 | 0 | 🟢 Completed |
 | 9. Customer / Lead Management | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 10. Document Upload (ID Proof) | 7 | 7 | 0 | 0 | 🟢 Completed |
-| 11. Approval Workflow (Expenses) | 8 | 0 | 0 | 8 | ⬜ Not Started |
+| 11. Approval Workflow (Expenses) | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 12. FCM Push Notifications | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **74** | **0** | **35** | **67.9% Completed** |
+| **Total** | **109** | **82** | **0** | **27** | **75.2% Completed** |
 
 ---
 
@@ -152,14 +152,14 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Document viewer / preview dialog for uploaded files
 
 ### 11. Approval Workflow (Expense Approvals)
-- [ ] Expense model (`id`, `employeeId`, `amount`, `category`, `description`, `receiptUrl`, `status`, `rejectionReason`, `approvedAt`)
-- [ ] Pending expenses list view with filter by date/amount
-- [ ] Expense detail view with receipt image preview
-- [ ] Approve action updating status to `Approved`
-- [ ] Reject action prompting mandatory rejection reason dialog
-- [ ] Anti-duplicate submission protection (debounce/disable buttons during execution)
-- [ ] Audit log recording for final approval/rejection decision
-- [ ] Status updates reflected in real-time on dashboard counters
+- [x] Expense model (`id`, `employeeId`, `amount`, `category`, `description`, `receiptUrl`, `status`, `rejectionReason`, `approvedAt`)
+- [x] Pending expenses list view with filter by date/amount
+- [x] Expense detail view with receipt image preview
+- [x] Approve action updating status to `Approved`
+- [x] Reject action prompting mandatory rejection reason dialog
+- [x] Anti-duplicate submission protection (debounce/disable buttons during execution)
+- [x] Audit log recording for final approval/rejection decision
+- [x] Status updates reflected in real-time on dashboard counters
 
 ### 12. Push Notification Workflow (FCM)
 - [ ] Initialize Firebase Cloud Messaging and request user permissions
