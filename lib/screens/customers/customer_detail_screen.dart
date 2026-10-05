@@ -6,7 +6,10 @@ import '../../core/routes/app_routes.dart';
 import '../../core/utils/ui_utils.dart';
 import '../../models/customer_model.dart';
 import '../../state/customer_provider.dart';
+import '../../state/document_provider.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/document_upload_modal.dart';
+import '../../widgets/document_viewer_dialog.dart';
 import '../../widgets/status_badge.dart';
 
 class CustomerDetailScreen extends StatefulWidget {
@@ -317,6 +320,97 @@ class _CustomerDetailScreenState extends State<CustomerDetailScreen> {
                       label: 'Last Updated',
                       value: dateFormat.format(cust.updatedAt),
                       isLast: true,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Verification Documents & ID Proof Card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Verification Documents',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        TextButton.icon(
+                          onPressed: () {
+                            DocumentUploadModal.show(
+                              context,
+                              entityId: cust.id,
+                              entityType: 'customer',
+                              entityName: cust.name,
+                            );
+                          },
+                          icon: const Icon(Icons.upload_file_rounded, size: 16),
+                          label: const Text('Upload ID Proof'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Divider(),
+                    const SizedBox(height: 8),
+
+                    Consumer<DocumentProvider>(
+                      builder: (context, docProvider, child) {
+                        final docs = docProvider.getDocumentsForEntity(cust.id);
+                        if (docs.isEmpty) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14.0),
+                            child: Center(
+                              child: Text(
+                                'No verification ID documents uploaded yet.',
+                                style: TextStyle(
+                                  color: AppColors.textMuted,
+                                  fontSize: 13,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+
+                        return Column(
+                          children: docs.map((doc) {
+                            return ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: AppColors.accent.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(
+                                  Icons.badge_outlined,
+                                  color: AppColors.accent,
+                                  size: 20,
+                                ),
+                              ),
+                              title: Text(
+                                doc.type,
+                                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                              ),
+                              subtitle: Text(
+                                '${doc.fileName} • ${DateFormat('MMM d, yyyy').format(doc.uploadedAt)}',
+                                style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                              ),
+                              trailing: const Icon(Icons.visibility_outlined, size: 18, color: AppColors.primary),
+                              onTap: () => DocumentViewerDialog.show(context, doc),
+                            );
+                          }).toList(),
+                        );
+                      },
                     ),
                   ],
                 ),

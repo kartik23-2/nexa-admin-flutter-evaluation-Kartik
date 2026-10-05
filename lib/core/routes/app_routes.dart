@@ -19,6 +19,7 @@ class AppRoutes {
   static const String customerForm = '/customers/form';
   static const String approvals = '/approvals';
   static const String approvalDetail = '/approvals/detail';
+  static const String documents = '/documents';
   static const String auditLogs = '/audit-logs';
   static const String settings = '/settings';
 

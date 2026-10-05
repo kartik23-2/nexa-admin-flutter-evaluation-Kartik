@@ -27,13 +27,13 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 7. Branch & Geofence Management | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 8. Attendance & GPS Geofence Test | 9 | 9 | 0 | 0 | 🟢 Completed |
 | 9. Customer / Lead Management | 8 | 8 | 0 | 0 | 🟢 Completed |
-| 10. Document Upload (ID Proof) | 7 | 0 | 0 | 7 | ⬜ Not Started |
+| 10. Document Upload (ID Proof) | 7 | 7 | 0 | 0 | 🟢 Completed |
 | 11. Approval Workflow (Expenses) | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 12. FCM Push Notifications | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **67** | **0** | **42** | **61.5% Completed** |
+| **Total** | **109** | **74** | **0** | **35** | **67.9% Completed** |
 
 ---
 
@@ -143,13 +143,13 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Audit log trigger on customer creation/update
 
 ### 10. Document Upload (ID Proof)
-- [ ] Document model (`id`, `customerId`/`employeeId`, `type`, `fileUrl`, `fileName`, `uploadedAt`, `uploadedBy`)
-- [ ] Image selection modal (Camera vs. Gallery)
-- [ ] Image preview before initiating upload
-- [ ] Firebase Storage upload service with upload progress indicator
-- [ ] Store document metadata and download URL in Firestore
-- [ ] Upload failure error handling with retry capability
-- [ ] Document viewer / preview dialog for uploaded files
+- [x] Document model (`id`, `customerId`/`employeeId`, `type`, `fileUrl`, `fileName`, `uploadedAt`, `uploadedBy`)
+- [x] Image selection modal (Camera vs. Gallery)
+- [x] Image preview before initiating upload
+- [x] Firebase Storage upload service with upload progress indicator
+- [x] Store document metadata and download URL in Firestore
+- [x] Upload failure error handling with retry capability
+- [x] Document viewer / preview dialog for uploaded files
 
 ### 11. Approval Workflow (Expense Approvals)
 - [ ] Expense model (`id`, `employeeId`, `amount`, `category`, `description`, `receiptUrl`, `status`, `rejectionReason`, `approvedAt`)
