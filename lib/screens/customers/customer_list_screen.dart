@@ -187,7 +187,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
 
     return Card(
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
         onTap: () {
           Navigator.of(context).pushNamed(
             AppRoutes.customerDetail,

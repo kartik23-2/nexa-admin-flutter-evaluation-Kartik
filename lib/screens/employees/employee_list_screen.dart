@@ -193,16 +193,17 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
       onSelected: (_) {
         context.read<EmployeeProvider>().setStatusFilter(filterValue);
       },
-      selectedColor: AppColors.primaryLight.withOpacity(0.15),
-      checkmarkColor: AppColors.primary,
+      selectedColor: AppColors.limeAccent,
+      checkmarkColor: AppColors.limeText,
       labelStyle: TextStyle(
-        color: isSelected ? AppColors.primary : AppColors.textSecondary,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+        color: isSelected ? AppColors.limeText : AppColors.textSecondary,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         fontSize: 13,
       ),
       backgroundColor: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       side: BorderSide(
-        color: isSelected ? AppColors.primary : AppColors.border,
+        color: isSelected ? AppColors.limeAccent : AppColors.border,
         width: 1,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -217,11 +218,11 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
         side: const BorderSide(color: AppColors.border, width: 1),
       ),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
         onTap: () {
           Navigator.of(context).pushNamed(
             AppRoutes.employeeDetail,
@@ -229,7 +230,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
               // Avatar

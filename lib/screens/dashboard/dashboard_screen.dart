@@ -6,7 +6,6 @@ import '../../core/routes/app_routes.dart';
 import '../../state/auth_provider.dart';
 import '../../state/dashboard_provider.dart';
 import '../../widgets/app_shell.dart';
-import '../../widgets/error_state_view.dart';
 import '../../widgets/loading_view.dart';
 import 'widgets/kpi_card.dart';
 
@@ -19,6 +18,13 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentTabIndex = 0;
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+  }
 
   void _onNavigationChanged(int index) {
     setState(() {
@@ -48,240 +54,317 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final dashboard = context.watch<DashboardProvider>();
     final stats = dashboard.stats;
 
-    final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
-    final dateFormat = DateFormat('EEEE, MMM d, yyyy');
+    final userName = auth.currentUser?.email?.split('@')[0] ?? 'Admin';
+    final capitalizedUser = userName.isNotEmpty
+        ? '${userName[0].toUpperCase()}${userName.substring(1)}'
+        : 'Admin';
+
+    final totalStaff = stats.totalEmployees > 0 ? stats.totalEmployees : 1;
+    final attendanceRatio = (stats.presentCount / totalStaff).clamp(0.0, 1.0);
+    final attendancePercent = (attendanceRatio * 100).toInt();
 
     return AppShell(
       title: 'Operations Dashboard',
+      showAppBar: false,
       currentIndex: _currentTabIndex,
       onIndexChanged: _onNavigationChanged,
       body: dashboard.isLoading && stats.totalEmployees == 0
-          ? const LoadingView(message: 'Loading live operational data...')
+          ? const LoadingView(message: 'Loading live operations...')
           : RefreshIndicator(
               onRefresh: dashboard.refreshStats,
-              color: AppColors.primary,
+              color: AppColors.limeText,
+              backgroundColor: AppColors.limeAccent,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Admin Welcome & Date Header
+                    const SizedBox(height: 36),
+
+                    // 1. Top Header Profile & Actions (Faithful to reference image)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 22,
+                              backgroundColor: AppColors.primary,
+                              child: Text(
+                                capitalizedUser.isNotEmpty ? capitalizedUser[0] : 'A',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Good morning!',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textSecondary.withOpacity(0.8),
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  capitalizedUser,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textPrimary,
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            _buildHeaderIconButton(
+                              icon: Icons.calendar_today_outlined,
+                              tooltip: 'Refresh Timeline',
+                              onPressed: dashboard.refreshStats,
+                            ),
+                            const SizedBox(width: 10),
+                            _buildHeaderIconButton(
+                              icon: Icons.notifications_none_rounded,
+                              tooltip: 'Approvals & Alerts',
+                              badgeCount: stats.pendingApprovals,
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(AppRoutes.approvals);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // 2. Hero Progress Card ("Your Weekly Progress" in reference UI)
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(22),
                       decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12),
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFE9F9BC), Color(0xFFD6F57A)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(28),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.2),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
+                            color: const Color(0xFFC8F042).withOpacity(0.25),
+                            blurRadius: 18,
+                            offset: const Offset(0, 8),
                           ),
                         ],
                       ),
                       child: Row(
                         children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundColor: Colors.white.withOpacity(0.2),
-                            child: const Icon(
-                              Icons.admin_panel_settings,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 14),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Welcome back, ${auth.currentUser?.email?.split('@')[0] ?? "Admin"}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.65),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Icon(
+                                        Icons.bolt_rounded,
+                                        size: 14,
+                                        color: AppColors.limeText,
+                                      ),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        'Daily Workforce',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.limeText,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  dateFormat.format(DateTime.now()),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'Operations\nPerformance',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8),
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w800,
+                                    color: AppColors.textPrimary,
+                                    height: 1.15,
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${stats.presentCount} of ${stats.totalEmployees} staff active today',
+                                  style: TextStyle(
                                     fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.limeText.withOpacity(0.8),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.refresh_rounded, color: Colors.white),
-                            tooltip: 'Refresh Metrics',
-                            onPressed: dashboard.refreshStats,
+                          // Circular Progress Ring (Like reference UI)
+                          Container(
+                            width: 82,
+                            height: 82,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 66,
+                                  height: 66,
+                                  child: CircularProgressIndicator(
+                                    value: attendanceRatio,
+                                    strokeWidth: 6,
+                                    backgroundColor: const Color(0xFFE2F4A0),
+                                    color: const Color(0xFF88C900),
+                                    strokeCap: StrokeCap.round,
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '$attendancePercent%',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                    const Text(
+                                      'present',
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 18),
 
-                    // Error warning notice if network degraded
-                    if (dashboard.errorMessage != null) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.warningLight,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.warning.withOpacity(0.3)),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.info_outline, color: AppColors.warning, size: 16),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                dashboard.errorMessage!,
-                                style: const TextStyle(
-                                  color: AppColors.warning,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-
-                    // Section Title
-                    Text(
-                      'Operational KPIs',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-
-                    // 1. Total Employees
-                    KpiCard(
-                      title: 'Total Employees',
-                      value: '${stats.totalEmployees}',
-                      subtitle: 'Active staff directory',
-                      icon: Icons.badge_outlined,
-                      iconColor: AppColors.primary,
-                      onTap: () => Navigator.of(context).pushNamed(AppRoutes.employees),
-                    ),
-                    const SizedBox(height: 12),
-
-                    // 2. Today's Attendance (Present & Absent)
+                    // 3. Mini Metric Cards (2-Columns like "Step to walk" & "Drink Water" in reference)
                     Row(
                       children: [
                         Expanded(
                           child: KpiCard(
-                            title: 'Present Today',
-                            value: '${stats.presentCount}',
-                            subtitle: 'Checked-in',
-                            icon: Icons.check_circle_outline,
-                            iconColor: AppColors.success,
-                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.attendance),
+                            title: 'Active Staff',
+                            value: '${stats.totalEmployees}',
+                            subtitle: 'Staff registered',
+                            assetPath: 'assets/icons/3d_employees.png',
+                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.employees),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 14),
                         Expanded(
                           child: KpiCard(
-                            title: 'Absent / Out',
-                            value: '${stats.absentCount}',
-                            subtitle: 'Unreported',
-                            icon: Icons.cancel_outlined,
-                            iconColor: AppColors.error,
-                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.attendance),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-
-                    // 3. Total Customers / Leads & 4. Pending Approvals
-                    Row(
-                      children: [
-                        Expanded(
-                          child: KpiCard(
-                            title: 'Customers / Leads',
+                            title: 'Customers',
                             value: '${stats.totalCustomers}',
-                            subtitle: 'Total pipeline',
-                            icon: Icons.people_outline,
-                            iconColor: AppColors.accent,
+                            subtitle: 'Active pipeline',
+                            assetPath: 'assets/icons/3d_target_customers.png',
                             onTap: () => Navigator.of(context).pushNamed(AppRoutes.customers),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: KpiCard(
-                            title: 'Pending Approvals',
-                            value: '${stats.pendingApprovals}',
-                            subtitle: 'Requires action',
-                            icon: Icons.pending_actions_outlined,
-                            iconColor: AppColors.warning,
-                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.approvals),
-                          ),
-                        ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 22),
 
-                    // 5. Today's Collections
-                    KpiCard(
-                      title: "Today's Collections",
-                      value: currencyFormat.format(stats.todayCollections),
-                      subtitle: 'Approved payments & receivables',
-                      icon: Icons.account_balance_wallet_outlined,
-                      iconColor: const Color(0xFF059669),
-                    ),
+                    // 4. Horizontal Calendar / Week Pill Strip (Identical to reference image)
+                    _buildHorizontalCalendar(),
                     const SizedBox(height: 24),
 
-                    // Quick Actions Section
-                    Text(
-                      'Quick Actions',
-                      style: theme.textTheme.titleMedium?.copyWith(
+                    // 5. Operational Modules List (Reference UI "Breakfast" / "Lunch time" cards)
+                    const Text(
+                      'Operational Modules',
+                      style: TextStyle(
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: AppColors.textPrimary,
+                        letterSpacing: -0.3,
                       ),
                     ),
                     const SizedBox(height: 12),
 
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildQuickActionButton(
-                            context: context,
-                            icon: Icons.person_add_alt_1_outlined,
-                            label: 'Add Employee',
-                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.employeeForm),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildQuickActionButton(
-                            context: context,
-                            icon: Icons.pin_drop_outlined,
-                            label: 'Geofence Check',
-                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.attendanceCheckin),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildQuickActionButton(
-                            context: context,
-                            icon: Icons.person_add_outlined,
-                            label: 'New Lead',
-                            onTap: () => Navigator.of(context).pushNamed(AppRoutes.customerForm),
-                          ),
-                        ),
-                      ],
+                    // Module 1: Expense Approvals
+                    _buildModuleCard(
+                      context,
+                      title: 'Expense Approvals',
+                      subtitle: '${stats.pendingApprovals} requests pending audit',
+                      value: '${stats.pendingApprovals} pending',
+                      assetPath: 'assets/icons/3d_expenses_wallet.png',
+                      accentColor: AppColors.warning,
+                      onTap: () => Navigator.of(context).pushNamed(AppRoutes.approvals),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
+
+                    // Module 2: Attendance & Geofence Verification
+                    _buildModuleCard(
+                      context,
+                      title: 'GPS Geofence Attendance',
+                      subtitle: '${stats.presentCount} checked in within geofence',
+                      value: '${stats.absentCount} absent',
+                      assetPath: 'assets/icons/3d_attendance_present.png',
+                      accentColor: AppColors.success,
+                      onTap: () => Navigator.of(context).pushNamed(AppRoutes.attendance),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Module 3: Branches & Geofence Management
+                    _buildModuleCard(
+                      context,
+                      title: 'Branches & Radius Zones',
+                      subtitle: 'Live GPS geofences and office locations',
+                      value: 'Configure',
+                      assetPath: 'assets/icons/3d_branch_geofence.png',
+                      accentColor: AppColors.info,
+                      onTap: () => Navigator.of(context).pushNamed(AppRoutes.branches),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Module 4: Verification Documents
+                    _buildModuleCard(
+                      context,
+                      title: 'Verification Vault',
+                      subtitle: 'Aadhaar, PAN & ID proof submissions',
+                      value: 'Vault',
+                      assetPath: 'assets/icons/3d_documents.png',
+                      accentColor: AppColors.primary,
+                      onTap: () => Navigator.of(context).pushNamed(AppRoutes.documents),
+                    ),
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -289,33 +372,248 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildQuickActionButton({
-    required BuildContext context,
+  Widget _buildHeaderIconButton({
     required IconData icon,
-    required String label,
-    required VoidCallback onTap,
+    required String tooltip,
+    required VoidCallback onPressed,
+    int badgeCount = 0,
   }) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          IconButton(
+            icon: Icon(icon, size: 20, color: AppColors.textPrimary),
+            tooltip: tooltip,
+            onPressed: onPressed,
+            padding: EdgeInsets.zero,
+          ),
+          if (badgeCount > 0)
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: const BoxDecoration(
+                  color: AppColors.error,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  '$badgeCount',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHorizontalCalendar() {
+    final now = DateTime.now();
+    final monthFormat = DateFormat('MMMM yyyy');
+    // Generate week days (Sunday to Saturday of current week)
+    final startOfWeek = now.subtract(Duration(days: now.weekday % 7));
+    final days = List.generate(7, (i) => startOfWeek.add(Duration(days: i)));
+    final dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: AppColors.primary, size: 24),
-              const SizedBox(height: 8),
               Text(
-                label,
-                textAlign: TextAlign.center,
+                monthFormat.format(now),
                 style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
               ),
+              Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceMuted,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      size: 12,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceMuted,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 12,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
             ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(7, (index) {
+              final day = days[index];
+              final isToday = day.day == now.day &&
+                  day.month == now.month &&
+                  day.year == now.year;
+
+              return Column(
+                children: [
+                  Text(
+                    dayNames[index],
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: isToday ? AppColors.textPrimary : AppColors.textMuted,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    width: 38,
+                    height: 38,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: isToday ? AppColors.limeAccent : Colors.transparent,
+                      shape: BoxShape.circle,
+                      boxShadow: isToday
+                          ? [
+                              BoxShadow(
+                                color: AppColors.limeAccent.withOpacity(0.5),
+                                blurRadius: 8,
+                                offset: const Offset(0, 3),
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: Text(
+                      '${day.day}'.padLeft(2, '0'),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: isToday ? FontWeight.bold : FontWeight.w500,
+                        color: isToday ? AppColors.limeText : AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildModuleCard(
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    required String value,
+    required String assetPath,
+    required Color accentColor,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(24),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                Image.asset(
+                  assetPath,
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceMuted,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.add_rounded,
+                    size: 20,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -175,17 +175,11 @@ class _BranchListScreenState extends State<BranchListScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    Icons.store_rounded,
-                    color: AppColors.primary,
-                    size: 24,
-                  ),
+                Image.asset(
+                  'assets/icons/3d_branch_geofence.png',
+                  width: 44,
+                  height: 44,
+                  fit: BoxFit.contain,
                 ),
                 const SizedBox(width: 14),
                 Expanded(

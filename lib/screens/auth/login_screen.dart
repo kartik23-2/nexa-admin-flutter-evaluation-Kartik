@@ -139,27 +139,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Brand Icon & Header
+                    // Brand 3D Icon & Header
                     Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.admin_panel_settings_rounded,
-                          size: 48,
-                          color: AppColors.primary,
-                        ),
+                      child: Image.asset(
+                        'assets/icons/3d_employees.png',
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
                     Text(
                       'NEXA Admin Lite',
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
                         letterSpacing: -0.5,
                       ),
@@ -305,11 +299,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     // One-Tap Demo Login Card
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceMuted,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.border),
+                        color: AppColors.limeLight,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: AppColors.limeAccent.withOpacity(0.6)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -317,18 +311,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.12),
-                                  borderRadius: BorderRadius.circular(6),
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.limeAccent,
+                                  shape: BoxShape.circle,
                                 ),
                                 child: const Icon(
                                   Icons.bolt_rounded,
-                                  color: AppColors.primary,
+                                  color: AppColors.limeText,
                                   size: 20,
                                 ),
                               ),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,9 +330,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Text(
                                       'Demo Administrator',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 13,
-                                        color: AppColors.textPrimary,
+                                        color: AppColors.limeText,
                                       ),
                                     ),
                                     Text(
@@ -353,14 +347,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
                           CustomButton(
-                            text: 'One-Tap Demo Login',
+                            text: 'One-Tap Demo Sign In',
                             icon: Icons.login_rounded,
-                            isOutlined: true,
+                            isOutlined: false,
                             isLoading: auth.isLoading,
                             backgroundColor: AppColors.primary,
-                            textColor: AppColors.primary,
+                            textColor: Colors.white,
                             onPressed: _handleDemoLogin,
                           ),
                         ],

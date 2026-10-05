@@ -27,12 +27,11 @@ class CustomButton extends StatelessWidget {
     if (isOutlined) {
       return OutlinedButton(
         onPressed: isLoading ? null : onPressed,
-        style: backgroundColor != null
-            ? OutlinedButton.styleFrom(
-                side: BorderSide(color: backgroundColor!),
-                foregroundColor: backgroundColor,
-              )
-            : null,
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(color: backgroundColor ?? theme.colorScheme.primary),
+          foregroundColor: textColor ?? backgroundColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
         child: _buildChild(theme),
       );
     }
@@ -43,6 +42,7 @@ class CustomButton extends StatelessWidget {
           ? ElevatedButton.styleFrom(
               backgroundColor: backgroundColor,
               foregroundColor: textColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             )
           : null,
       child: _buildChild(theme),

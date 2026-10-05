@@ -299,12 +299,17 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
       label: Text(label),
       selected: isSelected,
       onSelected: (_) => provider.setStatusFilter(statusValue),
-      selectedColor: AppColors.primaryLight.withOpacity(0.15),
-      checkmarkColor: AppColors.primary,
+      selectedColor: AppColors.limeAccent,
+      checkmarkColor: AppColors.limeText,
       labelStyle: TextStyle(
-        color: isSelected ? AppColors.primary : AppColors.textSecondary,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+        color: isSelected ? AppColors.limeText : AppColors.textSecondary,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         fontSize: 12,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      side: BorderSide(
+        color: isSelected ? AppColors.limeAccent : AppColors.border,
+        width: 1,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
     );
@@ -320,7 +325,7 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
 
     return Card(
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
         onTap: () {
           Navigator.of(context).pushNamed(
             AppRoutes.approvalDetail,
@@ -328,20 +333,18 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.08),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(Icons.receipt_long_rounded, color: AppColors.primary, size: 22),
+                  Image.asset(
+                    'assets/icons/3d_expenses_wallet.png',
+                    width: 44,
+                    height: 44,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(width: 12),
                   Expanded(

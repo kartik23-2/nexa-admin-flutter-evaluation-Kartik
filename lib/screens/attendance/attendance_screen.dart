@@ -205,12 +205,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       label: Text(filterValue),
       selected: isSelected,
       onSelected: (_) => provider.setStatusFilter(filterValue),
-      selectedColor: AppColors.primaryLight.withOpacity(0.15),
-      checkmarkColor: AppColors.primary,
+      selectedColor: AppColors.limeAccent,
+      checkmarkColor: AppColors.limeText,
       labelStyle: TextStyle(
-        color: isSelected ? AppColors.primary : AppColors.textSecondary,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+        color: isSelected ? AppColors.limeText : AppColors.textSecondary,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         fontSize: 12,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      side: BorderSide(
+        color: isSelected ? AppColors.limeAccent : AppColors.border,
+        width: 1,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
     );
@@ -219,22 +224,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   Widget _buildAttendanceCard(AttendanceModel log, DateFormat dateFormat) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: log.isPresent
-                      ? AppColors.successLight
-                      : AppColors.errorLight,
-                  child: Icon(
-                    log.isPresent ? Icons.check_circle_rounded : Icons.cancel_rounded,
-                    color: log.isPresent ? AppColors.success : AppColors.error,
-                    size: 22,
-                  ),
+                Image.asset(
+                  log.isPresent
+                      ? 'assets/icons/3d_attendance_present.png'
+                      : 'assets/icons/3d_attendance_absent.png',
+                  width: 44,
+                  height: 44,
+                  fit: BoxFit.contain,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
