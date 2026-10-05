@@ -174,4 +174,4 @@ flutter build apk --release
 ```
 The compiled APK will be located at:
 - `build/app/outputs/flutter-apk/app-release.apk`
-- Renamed deliverable: `NEXA_Admin_Abhay.apk`
+- Renamed deliverable: `NEXA_Admin_Kartik.apk`
