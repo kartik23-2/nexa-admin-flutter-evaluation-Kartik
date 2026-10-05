@@ -26,14 +26,14 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 6. Employee Management | 9 | 9 | 0 | 0 | 🟢 Completed |
 | 7. Branch & Geofence Management | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 8. Attendance & GPS Geofence Test | 9 | 9 | 0 | 0 | 🟢 Completed |
-| 9. Customer / Lead Management | 8 | 0 | 0 | 8 | ⬜ Not Started |
+| 9. Customer / Lead Management | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 10. Document Upload (ID Proof) | 7 | 0 | 0 | 7 | ⬜ Not Started |
 | 11. Approval Workflow (Expenses) | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 12. FCM Push Notifications | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **59** | **0** | **50** | **54.1% Completed** |
+| **Total** | **109** | **67** | **0** | **42** | **61.5% Completed** |
 
 ---
 
@@ -133,14 +133,14 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Comprehensive error handling preventing app crashes on location failure
 
 ### 9. Customer / Lead Management
-- [ ] Customer model (`id`, `name`, `mobile`, `email`, `status`, `notes`, `createdAt`, `updatedAt`)
-- [ ] Customer list screen populated from Firestore
-- [ ] Search customers by name or mobile number
-- [ ] Filter customers by status (`New`, `Contacted`, `Interested`, `Converted`, `Rejected`)
-- [ ] Create Customer form with validation
-- [ ] Edit Customer details and status transition
-- [ ] Customer Detail screen displaying contact info, status timeline, and documents
-- [ ] Audit log trigger on customer creation/update
+- [x] Customer model (`id`, `name`, `mobile`, `email`, `status`, `notes`, `createdAt`, `updatedAt`)
+- [x] Customer list screen populated from Firestore
+- [x] Search customers by name or mobile number
+- [x] Filter customers by status (`New`, `Contacted`, `Interested`, `Converted`, `Rejected`)
+- [x] Create Customer form with validation
+- [x] Edit Customer details and status transition
+- [x] Customer Detail screen displaying contact info, status timeline, and documents
+- [x] Audit log trigger on customer creation/update
 
 ### 10. Document Upload (ID Proof)
 - [ ] Document model (`id`, `customerId`/`employeeId`, `type`, `fileUrl`, `fileName`, `uploadedAt`, `uploadedBy`)

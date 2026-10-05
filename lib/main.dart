@@ -18,8 +18,12 @@ import 'screens/branches/branch_list_screen.dart';
 import 'screens/branches/branch_form_screen.dart';
 
 import 'state/attendance_provider.dart';
+import 'state/customer_provider.dart';
 import 'screens/attendance/attendance_screen.dart';
 import 'screens/attendance/attendance_checkin_screen.dart';
+import 'screens/customers/customer_list_screen.dart';
+import 'screens/customers/customer_form_screen.dart';
+import 'screens/customers/customer_detail_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +43,7 @@ class NexaAdminApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EmployeeProvider()),
         ChangeNotifierProvider(create: (_) => BranchProvider()),
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
+        ChangeNotifierProvider(create: (_) => CustomerProvider()),
       ],
       child: MaterialApp(
         title: 'NEXA Admin Lite',
@@ -57,6 +62,9 @@ class NexaAdminApp extends StatelessWidget {
           AppRoutes.branchForm: (context) => const BranchFormScreen(),
           AppRoutes.attendance: (context) => const AttendanceScreen(),
           AppRoutes.attendanceCheckin: (context) => const AttendanceCheckinScreen(),
+          AppRoutes.customers: (context) => const CustomerListScreen(),
+          AppRoutes.customerForm: (context) => const CustomerFormScreen(),
+          AppRoutes.customerDetail: (context) => const CustomerDetailScreen(),
         },
       ),
     );
