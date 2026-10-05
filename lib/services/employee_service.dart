@@ -5,16 +5,20 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import '../core/constants/firestore_collections.dart';
 import '../models/employee_model.dart';
+import 'audit_service.dart';
 
 class EmployeeService {
   final FirebaseFirestore _firestore;
   final FirebaseStorage _storage;
+  final AuditService _auditService;
 
   EmployeeService({
     FirebaseFirestore? firestore,
     FirebaseStorage? storage,
+    AuditService? auditService,
   })  : _firestore = firestore ?? FirebaseFirestore.instance,
-        _storage = storage ?? FirebaseStorage.instance;
+        _storage = storage ?? FirebaseStorage.instance,
+        _auditService = auditService ?? AuditService();
 
   CollectionReference<Map<String, dynamic>> get _employeeRef =>
       _firestore.collection(FirestoreCollections.employees);
@@ -75,6 +79,22 @@ class EmployeeService {
     );
 
     await docRef.set(newEmployee.toMap());
+
+    // Trigger Audit Log
+    await _auditService.logEvent(
+      action: 'EMPLOYEE_CREATED',
+      entityType: 'Employee',
+      entityId: docRef.id,
+      description: 'Added employee "${employee.name}" (${employee.designation})',
+      metadata: {
+        'name': employee.name,
+        'email': employee.email,
+        'mobile': employee.mobile,
+        'designation': employee.designation,
+        'branchId': employee.branchId,
+      },
+    );
+
     return docRef.id;
   }
 
@@ -87,16 +107,43 @@ class EmployeeService {
 
     final updated = employee.copyWith(photoUrl: photoUrl);
     await _employeeRef.doc(employee.id).update(updated.toMap());
+
+    // Trigger Audit Log
+    await _auditService.logEvent(
+      action: 'EMPLOYEE_UPDATED',
+      entityType: 'Employee',
+      entityId: employee.id,
+      description: 'Updated profile for employee "${employee.name}"',
+      metadata: employee.toMap(),
+    );
   }
 
   Future<void> toggleEmployeeStatus(String id, bool active) async {
     await _employeeRef.doc(id).update({
       'status': active ? 'Active' : 'Inactive',
     });
+
+    // Trigger Audit Log
+    await _auditService.logEvent(
+      action: active ? 'EMPLOYEE_ACTIVATED' : 'EMPLOYEE_DEACTIVATED',
+      entityType: 'Employee',
+      entityId: id,
+      description: '${active ? "Activated" : "Deactivated"} employee account #$id',
+      metadata: {'employeeId': id, 'newStatus': active ? 'Active' : 'Inactive'},
+    );
   }
 
-  Future<void> deleteEmployee(String id) async {
+  Future<void> deleteEmployee(String id, {String? employeeName}) async {
     await _employeeRef.doc(id).delete();
+
+    // Trigger Audit Log
+    await _auditService.logEvent(
+      action: 'EMPLOYEE_DELETED',
+      entityType: 'Employee',
+      entityId: id,
+      description: 'Deleted employee record "${employeeName ?? id}"',
+      metadata: {'employeeId': id, 'name': employeeName},
+    );
   }
 
   Future<List<Map<String, dynamic>>> fetchBranches() async {

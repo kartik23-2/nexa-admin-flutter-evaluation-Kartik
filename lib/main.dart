@@ -34,6 +34,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'services/notification_service.dart';
 import 'state/notification_provider.dart';
 
+import 'state/audit_provider.dart';
+import 'screens/audit/audit_logs_screen.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.initialize();
@@ -58,6 +61,7 @@ class NexaAdminApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DocumentProvider()),
         ChangeNotifierProvider(create: (_) => ExpenseProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => AuditProvider()),
       ],
       child: MaterialApp(
         title: 'NEXA Admin Lite',
@@ -82,6 +86,7 @@ class NexaAdminApp extends StatelessWidget {
           AppRoutes.documents: (context) => const DocumentsScreen(),
           AppRoutes.approvals: (context) => const ApprovalsScreen(),
           AppRoutes.approvalDetail: (context) => const ApprovalDetailScreen(),
+          AppRoutes.auditLogs: (context) => const AuditLogsScreen(),
         },
       ),
     );

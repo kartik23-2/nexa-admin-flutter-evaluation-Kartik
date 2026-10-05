@@ -30,10 +30,10 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 10. Document Upload (ID Proof) | 7 | 7 | 0 | 0 | 🟢 Completed |
 | 11. Approval Workflow (Expenses) | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 12. FCM Push Notifications | 6 | 6 | 0 | 0 | 🟢 Completed |
-| 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
+| 13. Centralized Audit Logging | 6 | 6 | 0 | 0 | 🟢 Completed |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **88** | **0** | **21** | **80.7% Completed** |
+| **Total** | **109** | **94** | **0** | **15** | **86.2% Completed** |
 
 ---
 
@@ -170,15 +170,15 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Deep-link navigation: tapping notification opens target Expense Approval Detail screen
 
 ### 13. Centralized Audit Logging
-- [ ] Audit Log model (`id`, `action`, `entityType`, `entityId`, `adminId`, `adminEmail`, `timestamp`, `metadata`)
-- [ ] Centralized `AuditService.logAction(...)` utility
-- [ ] Log actions on:
+- [x] Audit Log model (`id`, `action`, `entityType`, `entityId`, `adminId`, `adminEmail`, `timestamp`, `metadata`)
+- [x] Centralized `AuditService.logAction(...)` utility
+- [x] Log actions on:
   - Employee created / updated / deactivated
   - Branch or geofence created / updated
   - Expense approved / rejected
   - Customer created / updated
   - Document uploaded
-- [ ] Audit logs viewer screen for Admin with timeline view
+- [x] Audit logs viewer screen for Admin with timeline view
 
 ### 14. Application States & Edge Case Hardening
 - [ ] Full coverage of major UI states:
