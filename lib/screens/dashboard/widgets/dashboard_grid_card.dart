@@ -79,7 +79,7 @@ class DashboardGridCard extends StatelessWidget {
                         height: 120,
                         width: 120,
                         fit: BoxFit.contain,
-                        opacity: const AlwaysStoppedAnimation(0.5),
+                        opacity: const AlwaysStoppedAnimation(0.2),
                       ),
                     ),
                   ),

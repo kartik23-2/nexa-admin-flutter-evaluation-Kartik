@@ -141,11 +141,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     // Brand 3D Icon & Header
                     Center(
-                      child: Image.asset(
-                        'assets/icons/3d_employees.png',
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.contain,
+                      child: Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.18),
+                              blurRadius: 18,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Image.asset(
+                          'assets/Logo.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),

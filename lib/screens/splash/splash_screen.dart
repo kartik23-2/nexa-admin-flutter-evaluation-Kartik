@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/routes/app_routes.dart';
-
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/routes/app_routes.dart';
 import '../../state/auth_provider.dart';
 import '../../widgets/shimmer_loading.dart';
 
@@ -33,57 +33,40 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.12),
-                shape: BoxShape.circle,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/Logo.png',
+                width: 220,
+                height: 220,
+                fit: BoxFit.contain,
               ),
-              child: const Icon(
-                Icons.admin_panel_settings_rounded,
-                size: 64,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'NEXA ADMIN LITE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Enterprise Administration Suite',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.8),
-                fontSize: 14,
-                letterSpacing: 0.2,
-              ),
-            ),
-            const SizedBox(height: 48),
-            SizedBox(
-              width: 140,
-              height: 6,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(3),
-                child: Shimmer(
-                  baseColor: Colors.white.withOpacity(0.15),
-                  highlightColor: Colors.white.withOpacity(0.65),
-                  child: Container(color: Colors.white),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: 130,
+                height: 4,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(2),
+                  child: Shimmer(
+                    baseColor: Colors.white.withOpacity(0.12),
+                    highlightColor: Colors.white.withOpacity(0.65),
+                    child: Container(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
