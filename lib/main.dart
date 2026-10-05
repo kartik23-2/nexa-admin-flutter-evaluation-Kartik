@@ -30,9 +30,15 @@ import 'state/expense_provider.dart';
 import 'screens/approvals/approvals_screen.dart';
 import 'screens/approvals/approval_detail_screen.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'services/notification_service.dart';
+import 'state/notification_provider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.initialize();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await NotificationService.instance.initialize();
   runApp(const NexaAdminApp());
 }
 
@@ -51,6 +57,7 @@ class NexaAdminApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CustomerProvider()),
         ChangeNotifierProvider(create: (_) => DocumentProvider()),
         ChangeNotifierProvider(create: (_) => ExpenseProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: MaterialApp(
         title: 'NEXA Admin Lite',

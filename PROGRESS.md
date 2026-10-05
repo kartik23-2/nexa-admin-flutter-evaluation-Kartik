@@ -29,11 +29,11 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 9. Customer / Lead Management | 8 | 8 | 0 | 0 | 🟢 Completed |
 | 10. Document Upload (ID Proof) | 7 | 7 | 0 | 0 | 🟢 Completed |
 | 11. Approval Workflow (Expenses) | 8 | 8 | 0 | 0 | 🟢 Completed |
-| 12. FCM Push Notifications | 6 | 0 | 0 | 6 | ⬜ Not Started |
+| 12. FCM Push Notifications | 6 | 6 | 0 | 0 | 🟢 Completed |
 | 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **82** | **0** | **27** | **75.2% Completed** |
+| **Total** | **109** | **88** | **0** | **21** | **80.7% Completed** |
 
 ---
 
@@ -162,12 +162,12 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Status updates reflected in real-time on dashboard counters
 
 ### 12. Push Notification Workflow (FCM)
-- [ ] Initialize Firebase Cloud Messaging and request user permissions
-- [ ] Retrieve and store device FCM token
-- [ ] Foreground notification handler with in-app banner/snackbar
-- [ ] Background / terminated state notification handler
-- [ ] Payload configuration for new expense/approval event
-- [ ] Deep-link navigation: tapping notification opens target Expense Approval Detail screen
+- [x] Initialize Firebase Cloud Messaging and request user permissions
+- [x] Retrieve and store device FCM token
+- [x] Foreground notification handler with in-app banner/snackbar
+- [x] Background / terminated state notification handler
+- [x] Payload configuration for new expense/approval event
+- [x] Deep-link navigation: tapping notification opens target Expense Approval Detail screen
 
 ### 13. Centralized Audit Logging
 - [ ] Audit Log model (`id`, `action`, `entityType`, `entityId`, `adminId`, `adminEmail`, `timestamp`, `metadata`)
