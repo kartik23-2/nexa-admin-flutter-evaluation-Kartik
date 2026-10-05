@@ -40,6 +40,21 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<void> _handleDemoLogin() async {
+    _emailController.text = 'admin@nexa.com';
+    _passwordController.text = 'Password@123';
+
+    final auth = context.read<AuthProvider>();
+    final success = await auth.loginWithDemo(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    if (success && mounted) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.dashboard);
+    }
+  }
+
   void _showForgotPasswordDialog() {
     final resetEmailController = TextEditingController(text: _emailController.text);
     final resetFormKey = GlobalKey<FormState>();
@@ -265,6 +280,91 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Sign In',
                       isLoading: auth.isLoading,
                       onPressed: _handleLogin,
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Divider with 'OR DEMO ACCESS'
+                    Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            'OR DEMO ACCESS',
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: AppColors.textMuted,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // One-Tap Demo Login Card
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceMuted,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Icon(
+                                  Icons.bolt_rounded,
+                                  color: AppColors.primary,
+                                  size: 20,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      'Demo Administrator',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                    ),
+                                    Text(
+                                      'admin@nexa.com • Password@123',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          CustomButton(
+                            text: 'One-Tap Demo Login',
+                            icon: Icons.login_rounded,
+                            isOutlined: true,
+                            isLoading: auth.isLoading,
+                            backgroundColor: AppColors.primary,
+                            textColor: AppColors.primary,
+                            onPressed: _handleDemoLogin,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 24),
 

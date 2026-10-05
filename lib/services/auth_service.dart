@@ -30,6 +30,33 @@ class AuthService {
     }
   }
 
+  /// Sign in with demo credentials, creating the account if not already created
+  Future<UserCredential> signInWithDemoCredentials({
+    String email = 'admin@nexa.com',
+    String password = 'Password@123',
+  }) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+        try {
+          return await _auth.createUserWithEmailAndPassword(
+            email: email.trim(),
+            password: password.trim(),
+          );
+        } catch (_) {
+          throw getReadableAuthError(e);
+        }
+      }
+      throw getReadableAuthError(e);
+    } catch (e) {
+      throw 'An unexpected error occurred during demo login. Please try again.';
+    }
+  }
+
   /// Send password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     try {

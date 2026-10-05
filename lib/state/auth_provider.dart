@@ -51,6 +51,30 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> loginWithDemo({
+    String email = 'admin@nexa.com',
+    String password = 'Password@123',
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _authService.signInWithDemoCredentials(
+        email: email,
+        password: password,
+      );
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _isLoading = false;
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<bool> resetPassword(String email) async {
     _isLoading = true;
     _errorMessage = null;
