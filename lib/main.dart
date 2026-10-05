@@ -4,8 +4,11 @@ import 'core/theme/app_theme.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/splash/splash_screen.dart';
 
-void main() {
+import 'services/firebase_service.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseService.initialize();
   runApp(const NexaAdminApp());
 }
 
