@@ -92,6 +92,10 @@ class _DashboardHomeView extends StatelessWidget {
     final attendanceRatio = (stats.presentCount / totalStaff).clamp(0.0, 1.0);
     final attendancePercent = (attendanceRatio * 100).toInt();
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardAspectRatio = screenWidth < 380 ? 1.06 : (screenWidth > 600 ? 1.25 : 1.14);
+    final gridCrossAxisCount = screenWidth > 640 ? 3 : 2;
+
     if (dashboard.isLoading && stats.totalEmployees == 0) {
       return const LoadingView(
         message: 'Loading live operations...',
@@ -322,10 +326,10 @@ class _DashboardHomeView extends StatelessWidget {
 
             // 4. BIG CARDS AS GRID (Faithful replica of attached reference design)
             GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: gridCrossAxisCount,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 1.16,
+              childAspectRatio: cardAspectRatio,
               crossAxisSpacing: 14,
               mainAxisSpacing: 14,
               children: [

@@ -24,106 +24,127 @@ class DashboardGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(32),
-        border: Border.all(color: Colors.white.withOpacity(0.8), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: accentCircleColor.withOpacity(0.08),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardWidth = constraints.maxWidth;
+        final cardHeight = constraints.maxHeight;
+
+        // Proportional sizing based on available card dimensions
+        final hPadding = (cardWidth * 0.085).clamp(12.0, 16.0);
+        final topPadding = (cardHeight * 0.10).clamp(12.0, 16.0);
+        final titleFontSize = (cardWidth * 0.11).clamp(15.0, 18.0);
+        final subtitleFontSize = (cardWidth * 0.07).clamp(11.0, 12.5);
+        final imgSize = (cardWidth * 0.68).clamp(88.0, 125.0);
+        final imgOffset = -(imgSize * 0.12);
+        final circleSize = (cardWidth * 0.25).clamp(36.0, 44.0);
+        final iconSize = (circleSize * 0.38).clamp(14.0, 17.0);
+
+        return Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: Colors.white.withOpacity(0.8), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: accentCircleColor.withOpacity(0.08),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(32),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: Stack(
-              children: [
-                // Top-Right Accent Circle with Arrow (Centered inside the circle)
-                Positioned(
-                  bottom: -5,
-                  left: -5,
-                  child: Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: accentCircleColor.withAlpha(100),
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.arrow_outward_rounded,
-                      color: arrowColor,
-                      size: 16,
-                    ),
-                  ),
-                ),
-
-                // Big 3D Asset Illustration placed at right bottom corner and clipped
-                Positioned(
-                  right: -15,
-                  bottom: -15,
-                  child: Transform.rotate(
-                    angle: -0.2,
-                    child: Hero(
-                      tag: 'grid_card_$title',
-                      child: Image.asset(
-                        assetPath,
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.contain,
-                        opacity: const AlwaysStoppedAnimation(0.2),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Card Content (Title & Subtitle)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 18, 52, 14),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Title
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textPrimary,
-                          letterSpacing: -0.5,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(28),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(28),
+                child: Stack(
+                  children: [
+                    // Bottom-Left Accent Circle with Arrow
+                    Positioned(
+                      bottom: -4,
+                      left: -4,
+                      child: Container(
+                        width: circleSize,
+                        height: circleSize,
+                        decoration: BoxDecoration(
+                          color: accentCircleColor.withAlpha(100),
+                          shape: BoxShape.circle,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 3),
-                      // Subtitle
-                      Text(
-                        subtitle,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textSecondary.withOpacity(0.85),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.arrow_outward_rounded,
+                          color: arrowColor,
+                          size: iconSize,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
+                    ),
+
+                    // 3D Asset Illustration responsive to card size and clipped
+                    Positioned(
+                      right: imgOffset,
+                      bottom: imgOffset,
+                      child: Transform.rotate(
+                        angle: -0.2,
+                        child: Hero(
+                          tag: 'grid_card_$title',
+                          child: Image.asset(
+                            assetPath,
+                            height: imgSize,
+                            width: imgSize,
+                            fit: BoxFit.contain,
+                            opacity: const AlwaysStoppedAnimation(0.25),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Card Content (Title & Subtitle) - auto-scales cleanly without "..." truncation
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(hPadding, topPadding, hPadding, 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Title with auto-scaling to prevent truncation on any device
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textPrimary,
+                                letterSpacing: -0.4,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          // Subtitle with auto-scaling
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              subtitle,
+                              style: TextStyle(
+                                fontSize: subtitleFontSize,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textSecondary.withOpacity(0.85),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

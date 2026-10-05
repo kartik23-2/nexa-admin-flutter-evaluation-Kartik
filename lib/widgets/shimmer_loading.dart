@@ -165,13 +165,17 @@ class ShimmerGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardAspectRatio = screenWidth < 380 ? 1.06 : (screenWidth > 600 ? 1.25 : 1.14);
+    final gridCrossAxisCount = screenWidth > 640 ? 3 : 2;
+
     return Shimmer(
       child: GridView.count(
         padding: padding,
-        crossAxisCount: 2,
+        crossAxisCount: gridCrossAxisCount,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        childAspectRatio: 1.12,
+        childAspectRatio: cardAspectRatio,
         crossAxisSpacing: 14,
         mainAxisSpacing: 14,
         children: List.generate(
