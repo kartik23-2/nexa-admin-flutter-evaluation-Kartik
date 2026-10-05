@@ -48,20 +48,20 @@ class DashboardGridCard extends StatelessWidget {
               children: [
                 // Top-Right Accent Circle with Arrow (Centered inside the circle)
                 Positioned(
-                  top: -10,
-                  right: -10,
+                  bottom: -5,
+                  left: -5,
                   child: Container(
-                    width: 60,
-                    height: 60,
+                    width: 45,
+                    height: 45,
                     decoration: BoxDecoration(
-                      color: accentCircleColor,
+                      color: accentCircleColor.withAlpha(100),
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
                     child: Icon(
                       Icons.arrow_outward_rounded,
                       color: arrowColor,
-                      size: 22,
+                      size: 16,
                     ),
                   ),
                 ),
@@ -70,14 +70,17 @@ class DashboardGridCard extends StatelessWidget {
                 Positioned(
                   right: -15,
                   bottom: -15,
-                  child: Hero(
-                    tag: 'grid_card_$title',
-                    child: Image.asset(
-                      assetPath,
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.contain,
-                      opacity: 0.5,
+                  child: Transform.rotate(
+                    angle: -0.2,
+                    child: Hero(
+                      tag: 'grid_card_$title',
+                      child: Image.asset(
+                        assetPath,
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.contain,
+                        opacity: const AlwaysStoppedAnimation(0.5),
+                      ),
                     ),
                   ),
                 ),
