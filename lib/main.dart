@@ -9,6 +9,10 @@ import 'services/firebase_service.dart';
 import 'state/auth_provider.dart';
 
 import 'state/dashboard_provider.dart';
+import 'state/employee_provider.dart';
+import 'screens/employees/employee_list_screen.dart';
+import 'screens/employees/employee_form_screen.dart';
+import 'screens/employees/employee_detail_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +29,7 @@ class NexaAdminApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
+        ChangeNotifierProvider(create: (_) => EmployeeProvider()),
       ],
       child: MaterialApp(
         title: 'NEXA Admin Lite',
@@ -36,6 +41,9 @@ class NexaAdminApp extends StatelessWidget {
           AppRoutes.splash: (context) => const SplashScreen(),
           AppRoutes.login: (context) => const LoginScreen(),
           AppRoutes.dashboard: (context) => const DashboardScreen(),
+          AppRoutes.employees: (context) => const EmployeeListScreen(),
+          AppRoutes.employeeForm: (context) => const EmployeeFormScreen(),
+          AppRoutes.employeeDetail: (context) => const EmployeeDetailScreen(),
         },
       ),
     );
