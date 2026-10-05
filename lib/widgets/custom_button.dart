@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'shimmer_loading.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -51,12 +52,22 @@ class CustomButton extends StatelessWidget {
 
   Widget _buildChild(ThemeData theme) {
     if (isLoading) {
-      return const SizedBox(
+      return SizedBox(
         height: 20,
-        width: 20,
-        child: CircularProgressIndicator(
-          strokeWidth: 2.2,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        child: Shimmer(
+          baseColor: (textColor ?? Colors.white).withOpacity(0.3),
+          highlightColor: textColor ?? Colors.white,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(width: 8, height: 8, decoration: BoxDecoration(color: textColor ?? Colors.white, shape: BoxShape.circle)),
+              const SizedBox(width: 6),
+              Container(width: 8, height: 8, decoration: BoxDecoration(color: textColor ?? Colors.white, shape: BoxShape.circle)),
+              const SizedBox(width: 6),
+              Container(width: 8, height: 8, decoration: BoxDecoration(color: textColor ?? Colors.white, shape: BoxShape.circle)),
+            ],
+          ),
         ),
       );
     }

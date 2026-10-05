@@ -4,6 +4,7 @@ import '../../core/routes/app_routes.dart';
 
 import 'package:provider/provider.dart';
 import '../../state/auth_provider.dart';
+import '../../widgets/shimmer_loading.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -70,12 +71,16 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             const SizedBox(height: 48),
-            const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
+            SizedBox(
+              width: 140,
+              height: 6,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(3),
+                child: Shimmer(
+                  baseColor: Colors.white.withOpacity(0.15),
+                  highlightColor: Colors.white.withOpacity(0.65),
+                  child: Container(color: Colors.white),
+                ),
               ),
             ),
           ],

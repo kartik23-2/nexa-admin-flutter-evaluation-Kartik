@@ -93,7 +93,10 @@ class _DashboardHomeView extends StatelessWidget {
     final attendancePercent = (attendanceRatio * 100).toInt();
 
     if (dashboard.isLoading && stats.totalEmployees == 0) {
-      return const LoadingView(message: 'Loading live operations...');
+      return const LoadingView(
+        message: 'Loading live operations...',
+        isGrid: true,
+      );
     }
 
     return RefreshIndicator(

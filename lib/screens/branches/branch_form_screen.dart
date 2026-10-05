@@ -7,6 +7,7 @@ import '../../models/branch_model.dart';
 import '../../state/branch_provider.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
+import '../../widgets/shimmer_loading.dart';
 
 class BranchFormScreen extends StatefulWidget {
   final BranchModel? initialBranch;
@@ -252,10 +253,8 @@ class _BranchFormScreenState extends State<BranchFormScreen> {
                   TextButton.icon(
                     onPressed: _isLocating ? null : _fetchCurrentGpsLocation,
                     icon: _isLocating
-                        ? const SizedBox(
-                            width: 14,
-                            height: 14,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                        ? const Shimmer(
+                            child: ShimmerBox(width: 14, height: 14, shape: BoxShape.circle),
                           )
                         : const Icon(Icons.my_location_rounded, size: 16),
                     label: const Text('Use Current GPS'),

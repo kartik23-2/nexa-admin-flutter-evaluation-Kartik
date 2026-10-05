@@ -9,6 +9,7 @@ import '../../state/document_provider.dart';
 import '../../widgets/document_viewer_dialog.dart';
 import '../../widgets/empty_state_view.dart';
 import '../../widgets/loading_view.dart';
+import '../../widgets/shimmer_loading.dart';
 
 class DocumentsScreen extends StatefulWidget {
   final String? entityId;
@@ -170,9 +171,8 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                   CachedNetworkImage(
                     imageUrl: doc.fileUrl,
                     fit: BoxFit.cover,
-                    placeholder: (_, __) => Container(
-                      color: AppColors.surfaceMuted,
-                      child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                    placeholder: (_, __) => const Shimmer(
+                      child: ShimmerBox(borderRadius: 0),
                     ),
                     errorWidget: (_, __, ___) => Container(
                       color: AppColors.surfaceMuted,

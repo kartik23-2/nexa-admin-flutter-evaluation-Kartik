@@ -7,6 +7,7 @@ import '../../core/utils/ui_utils.dart';
 import '../../models/expense_model.dart';
 import '../../state/expense_provider.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/shimmer_loading.dart';
 import '../../widgets/status_badge.dart';
 
 class ApprovalDetailScreen extends StatefulWidget {
@@ -378,11 +379,8 @@ class _ApprovalDetailScreenState extends State<ApprovalDetailScreen> {
                           child: CachedNetworkImage(
                             imageUrl: exp.receiptUrl!,
                             fit: BoxFit.cover,
-                            placeholder: (_, __) => const Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(32.0),
-                                child: CircularProgressIndicator(strokeWidth: 2),
-                              ),
+                            placeholder: (_, __) => const Shimmer(
+                              child: ShimmerBox(width: double.infinity, height: 200, borderRadius: 0),
                             ),
                             errorWidget: (_, __, ___) => const Center(
                               child: Padding(

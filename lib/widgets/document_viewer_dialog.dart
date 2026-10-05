@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../core/constants/app_colors.dart';
 import '../models/document_model.dart';
+import 'shimmer_loading.dart';
 import 'status_badge.dart';
 
 class DocumentViewerDialog extends StatelessWidget {
@@ -86,7 +87,9 @@ class DocumentViewerDialog extends StatelessWidget {
                       imageUrl: document.fileUrl,
                       fit: BoxFit.contain,
                       placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                        child: Shimmer(
+                          child: ShimmerBox(width: 260, height: 260, borderRadius: 16),
+                        ),
                       ),
                       errorWidget: (context, url, error) => Column(
                         mainAxisAlignment: MainAxisAlignment.center,

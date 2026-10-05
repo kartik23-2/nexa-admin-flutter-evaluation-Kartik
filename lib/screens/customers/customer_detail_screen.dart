@@ -10,6 +10,7 @@ import '../../state/document_provider.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/document_upload_modal.dart';
 import '../../widgets/document_viewer_dialog.dart';
+import '../../widgets/shimmer_loading.dart';
 import '../../widgets/status_badge.dart';
 
 class CustomerDetailScreen extends StatefulWidget {
@@ -214,10 +215,8 @@ class _CustomerDetailScreenState extends State<CustomerDetailScreen> {
                           ),
                         ),
                         if (_isUpdatingStatus)
-                          const SizedBox(
-                            width: 14,
-                            height: 14,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                          const Shimmer(
+                            child: ShimmerBox(width: 48, height: 14, borderRadius: 6),
                           ),
                       ],
                     ),
