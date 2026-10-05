@@ -2,28 +2,14 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions
     function isAuthenticated() {
       return request.auth != null;
-    }
-
-    function isAdmin() {
-      return isAuthenticated();
-    }
-
-    function hasValidTimestamp() {
-      return request.resource.data.createdAt != null;
-    }
-
-    // Default deny all
-    match /{document=**} {
-      allow read, write: if false;
     }
 
     // Users collection
     match /users/{userId} {
       allow read: if isAuthenticated();
-      allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAuthenticated() && request.auth.uid == userId;
     }
 
     // Employees collection
@@ -61,7 +47,7 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow write: if isAuthenticated()
         && request.resource.data.name is string
-        && request.resource.data.status in ['New', 'Contacted', 'Interested', 'Converted', 'Rejected'];
+        && request.resource.data.status in ['New', 'Contacted', 'Interested', 'Converted', 'Rejected', 'Lead', 'Qualified', 'Closed - Won', 'Closed - Lost'];
     }
 
     // Documents (ID proofs, verification records)
@@ -80,7 +66,6 @@ service cloud.firestore {
         && request.resource.data.status in ['Pending', 'Approved', 'Rejected'];
       allow update: if isAuthenticated()
         && (
-          // Status change validation: Rejections require a reason
           !(request.resource.data.status == 'Rejected' && (!('rejectionReason' in request.resource.data) || request.resource.data.rejectionReason == ''))
         );
       allow delete: if isAuthenticated();
@@ -98,6 +83,11 @@ service cloud.firestore {
     // Notifications
     match /notifications/{notificationId} {
       allow read, write: if isAuthenticated();
+    }
+
+    // Default deny all other documents
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
