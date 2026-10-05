@@ -12,12 +12,9 @@ class DashboardService {
   Future<DashboardStatsModel> fetchDashboardStats() async {
     try {
       // 1. Total Employees
-      final employeesSnap = await _firestore
-          .collection(FirestoreCollections.employees)
-          .count()
-          .get()
-          .catchError((_) => const AggregateQuerySnapshot());
-      final totalEmployees = employeesSnap.count ?? 0;
+      final totalEmployees = await _safeCount(
+        _firestore.collection(FirestoreCollections.employees).count(),
+      );
 
       // 2. Attendance count for today
       final now = DateTime.now();
@@ -47,21 +44,17 @@ class DashboardService {
       }
 
       // 3. Total Customers / Leads
-      final customersSnap = await _firestore
-          .collection(FirestoreCollections.customers)
-          .count()
-          .get()
-          .catchError((_) => const AggregateQuerySnapshot());
-      final totalCustomers = customersSnap.count ?? 0;
+      final totalCustomers = await _safeCount(
+        _firestore.collection(FirestoreCollections.customers).count(),
+      );
 
       // 4. Pending Approvals (Expenses)
-      final pendingExpensesSnap = await _firestore
-          .collection(FirestoreCollections.expenses)
-          .where('status', isEqualTo: 'Pending')
-          .count()
-          .get()
-          .catchError((_) => const AggregateQuerySnapshot());
-      final pendingApprovals = pendingExpensesSnap.count ?? 0;
+      final pendingApprovals = await _safeCount(
+        _firestore
+            .collection(FirestoreCollections.expenses)
+            .where('status', isEqualTo: 'Pending')
+            .count(),
+      );
 
       // 5. Today's Collections (Approved collection amounts / payments)
       double todayCollections = 0.0;
@@ -92,6 +85,16 @@ class DashboardService {
     } catch (e) {
       debugPrint('[DashboardService] General fetch error: $e');
       return const DashboardStatsModel();
+    }
+  }
+
+  Future<int> _safeCount(AggregateQuery query) async {
+    try {
+      final snap = await query.get();
+      return snap.count ?? 0;
+    } catch (e) {
+      debugPrint('[DashboardService] Count query notice: $e');
+      return 0;
     }
   }
 }
