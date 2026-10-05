@@ -11,7 +11,8 @@ import '../../widgets/loading_view.dart';
 import '../../widgets/status_badge.dart';
 
 class CustomerListScreen extends StatefulWidget {
-  const CustomerListScreen({super.key});
+  final bool isTab;
+  const CustomerListScreen({super.key, this.isTab = false});
 
   @override
   State<CustomerListScreen> createState() => _CustomerListScreenState();
@@ -51,21 +52,18 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     final customers = provider.filteredCustomers;
     final dateFormat = DateFormat('MMM d, yyyy');
 
-    return AppShell(
-      title: 'Customers & Leads',
-      currentIndex: 3,
-      onIndexChanged: _onNavigationChanged,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.person_add_alt_1_rounded),
-        label: const Text('Add Lead'),
-        onPressed: () {
-          Navigator.of(context).pushNamed(AppRoutes.customerForm);
-        },
-      ),
-      body: Column(
-        children: [
+    final fab = FloatingActionButton.extended(
+      backgroundColor: AppColors.primary,
+      foregroundColor: Colors.white,
+      icon: const Icon(Icons.person_add_alt_1_rounded),
+      label: const Text('Add Lead'),
+      onPressed: () {
+        Navigator.of(context).pushNamed(AppRoutes.customerForm);
+      },
+    );
+
+    final content = Column(
+      children: [
           // Search & Filter Header
           Container(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -174,7 +172,22 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
                   ),
           ),
         ],
-      ),
+      );
+
+    if (widget.isTab) {
+      return Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: fab,
+        body: content,
+      );
+    }
+
+    return AppShell(
+      title: 'Customers & Leads',
+      currentIndex: 3,
+      onIndexChanged: _onNavigationChanged,
+      floatingActionButton: fab,
+      body: content,
     );
   }
 

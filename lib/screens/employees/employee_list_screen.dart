@@ -10,7 +10,8 @@ import '../../widgets/loading_view.dart';
 import '../../widgets/status_badge.dart';
 
 class EmployeeListScreen extends StatefulWidget {
-  const EmployeeListScreen({super.key});
+  final bool isTab;
+  const EmployeeListScreen({super.key, this.isTab = false});
 
   @override
   State<EmployeeListScreen> createState() => _EmployeeListScreenState();
@@ -49,21 +50,18 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
     final employeeProvider = context.watch<EmployeeProvider>();
     final employees = employeeProvider.filteredEmployees;
 
-    return AppShell(
-      title: 'Employees',
-      currentIndex: 1,
-      onIndexChanged: _onNavigationChanged,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.person_add_rounded),
-        label: const Text('Add Employee'),
-        onPressed: () {
-          Navigator.of(context).pushNamed(AppRoutes.employeeForm);
-        },
-      ),
-      body: Column(
-        children: [
+    final fab = FloatingActionButton.extended(
+      backgroundColor: AppColors.primary,
+      foregroundColor: Colors.white,
+      icon: const Icon(Icons.person_add_rounded),
+      label: const Text('Add Employee'),
+      onPressed: () {
+        Navigator.of(context).pushNamed(AppRoutes.employeeForm);
+      },
+    );
+
+    final content = Column(
+      children: [
           // Search & Filters Header
           Container(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -176,7 +174,22 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                   ),
           ),
         ],
-      ),
+      );
+
+    if (widget.isTab) {
+      return Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: fab,
+        body: content,
+      );
+    }
+
+    return AppShell(
+      title: 'Employees',
+      currentIndex: 1,
+      onIndexChanged: _onNavigationChanged,
+      floatingActionButton: fab,
+      body: content,
     );
   }
 

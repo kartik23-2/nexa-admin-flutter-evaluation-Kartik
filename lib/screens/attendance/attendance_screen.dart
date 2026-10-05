@@ -11,7 +11,8 @@ import '../../widgets/loading_view.dart';
 import '../../widgets/status_badge.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({super.key});
+  final bool isTab;
+  const AttendanceScreen({super.key, this.isTab = false});
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
@@ -67,21 +68,18 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     final logs = provider.filteredLogs;
     final dateFormat = DateFormat('MMM d, yyyy • hh:mm a');
 
-    return AppShell(
-      title: 'Attendance Logs',
-      currentIndex: 2,
-      onIndexChanged: _onNavigationChanged,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.gps_fixed_rounded),
-        label: const Text('Test Check-In'),
-        onPressed: () {
-          Navigator.of(context).pushNamed(AppRoutes.attendanceCheckin);
-        },
-      ),
-      body: Column(
-        children: [
+    final fab = FloatingActionButton.extended(
+      backgroundColor: AppColors.primary,
+      foregroundColor: Colors.white,
+      icon: const Icon(Icons.gps_fixed_rounded),
+      label: const Text('Test Check-In'),
+      onPressed: () {
+        Navigator.of(context).pushNamed(AppRoutes.attendanceCheckin);
+      },
+    );
+
+    final content = Column(
+      children: [
           // Filter Header
           Container(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -195,7 +193,22 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   ),
           ),
         ],
-      ),
+      );
+
+    if (widget.isTab) {
+      return Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: fab,
+        body: content,
+      );
+    }
+
+    return AppShell(
+      title: 'Attendance Logs',
+      currentIndex: 2,
+      onIndexChanged: _onNavigationChanged,
+      floatingActionButton: fab,
+      body: content,
     );
   }
 

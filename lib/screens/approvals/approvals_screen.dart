@@ -14,7 +14,8 @@ import '../../widgets/loading_view.dart';
 import '../../widgets/status_badge.dart';
 
 class ApprovalsScreen extends StatefulWidget {
-  const ApprovalsScreen({super.key});
+  final bool isTab;
+  const ApprovalsScreen({super.key, this.isTab = false});
 
   @override
   State<ApprovalsScreen> createState() => _ApprovalsScreenState();
@@ -171,19 +172,16 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
     final currencyFormat = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
     final dateFormat = DateFormat('MMM d, yyyy • hh:mm a');
 
-    return AppShell(
-      title: 'Expense Approvals',
-      currentIndex: 4,
-      onIndexChanged: _onNavigationChanged,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add_card_rounded),
-        label: const Text('New Expense'),
-        onPressed: _showAddTestExpenseDialog,
-      ),
-      body: Column(
-        children: [
+    final fab = FloatingActionButton.extended(
+      backgroundColor: AppColors.primary,
+      foregroundColor: Colors.white,
+      icon: const Icon(Icons.add_card_rounded),
+      label: const Text('New Expense'),
+      onPressed: _showAddTestExpenseDialog,
+    );
+
+    final content = Column(
+      children: [
           // Filter & Search Header
           Container(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -289,7 +287,22 @@ class _ApprovalsScreenState extends State<ApprovalsScreen> {
                   ),
           ),
         ],
-      ),
+      );
+
+    if (widget.isTab) {
+      return Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: fab,
+        body: content,
+      );
+    }
+
+    return AppShell(
+      title: 'Expense Approvals',
+      currentIndex: 4,
+      onIndexChanged: _onNavigationChanged,
+      floatingActionButton: fab,
+      body: content,
     );
   }
 

@@ -333,7 +333,7 @@ class AppShell extends StatelessWidget {
               ),
             ),
             _buildNavItem(2, Icons.how_to_reg_outlined, Icons.how_to_reg_rounded, 'Attend'),
-            _buildNavItem(4, Icons.receipt_long_outlined, Icons.receipt_long_rounded, 'Approvals'),
+            _buildNavItem(3, Icons.receipt_long_outlined, Icons.receipt_long_rounded, 'Approvals'),
           ],
         ),
       ),
