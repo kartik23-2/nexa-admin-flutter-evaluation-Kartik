@@ -325,7 +325,7 @@ class _DashboardHomeView extends StatelessWidget {
               crossAxisCount: 2,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 0.92,
+              childAspectRatio: 1.12,
               crossAxisSpacing: 14,
               mainAxisSpacing: 14,
               children: [

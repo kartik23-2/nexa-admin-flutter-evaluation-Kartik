@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/constants/app_colors.dart';
 
 class DashboardGridCard extends StatelessWidget {
@@ -27,10 +28,7 @@ class DashboardGridCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(32),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.8),
-          width: 1.5,
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.8), width: 1.5),
         boxShadow: [
           BoxShadow(
             color: accentCircleColor.withOpacity(0.08),
@@ -50,11 +48,11 @@ class DashboardGridCard extends StatelessWidget {
               children: [
                 // Top-Right Accent Circle with Arrow (Centered inside the circle)
                 Positioned(
-                  top: -20,
-                  right: -20,
+                  top: -10,
+                  right: -10,
                   child: Container(
-                    width: 90,
-                    height: 90,
+                    width: 60,
+                    height: 60,
                     decoration: BoxDecoration(
                       color: accentCircleColor,
                       shape: BoxShape.circle,
@@ -70,8 +68,8 @@ class DashboardGridCard extends StatelessWidget {
 
                 // Big 3D Asset Illustration placed at right bottom corner and clipped
                 Positioned(
-                  right: -10,
-                  bottom: -10,
+                  right: -15,
+                  bottom: -15,
                   child: Hero(
                     tag: 'grid_card_$title',
                     child: Image.asset(
@@ -79,6 +77,7 @@ class DashboardGridCard extends StatelessWidget {
                       height: 100,
                       width: 100,
                       fit: BoxFit.contain,
+                      opacity: 0.5,
                     ),
                   ),
                 ),
