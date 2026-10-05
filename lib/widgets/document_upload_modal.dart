@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../core/constants/app_colors.dart';
 import '../core/utils/ui_utils.dart';
 import '../models/document_model.dart';
+import '../services/connectivity_service.dart';
 import '../state/document_provider.dart';
 import 'custom_button.dart';
 
@@ -95,6 +96,14 @@ class _DocumentUploadModalState extends State<DocumentUploadModal> {
 
   Future<void> _startUpload() async {
     if (_selectedFile == null) return;
+
+    if (ConnectivityService.instance.isOffline) {
+      setState(() {
+        _isUploading = false;
+        _uploadError = 'Device is currently offline. Please reconnect to internet to upload verification documents.';
+      });
+      return;
+    }
 
     setState(() {
       _isUploading = true;
@@ -192,7 +201,7 @@ class _DocumentUploadModalState extends State<DocumentUploadModal> {
                   value: type,
                   child: Text(type),
                 );
-              }).toList>,
+              }).toList(),
               onChanged: _isUploading
                   ? null
                   : (val) {

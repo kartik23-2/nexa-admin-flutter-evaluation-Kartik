@@ -4,6 +4,7 @@ import '../core/constants/app_colors.dart';
 import '../core/routes/app_routes.dart';
 import '../core/utils/ui_utils.dart';
 import '../state/auth_provider.dart';
+import 'offline_banner.dart';
 
 class AppShell extends StatelessWidget {
   final String title;
@@ -161,7 +162,7 @@ class AppShell extends StatelessWidget {
           ],
         ),
       ),
-      body: body,
+      body: OfflineBanner(child: body),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: onIndexChanged,
