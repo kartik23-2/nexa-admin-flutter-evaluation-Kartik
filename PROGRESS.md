@@ -21,7 +21,7 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 1. Project Setup & Architecture | 7 | 7 | 0 | 0 | 🟢 Completed |
 | 2. Firebase Configuration & Rules | 6 | 6 | 0 | 0 | 🟢 Completed |
 | 3. Authentication & Session | 7 | 7 | 0 | 0 | 🟢 Completed |
-| 4. Core UI & Theming | 6 | 0 | 0 | 6 | ⬜ Not Started |
+| 4. Core UI & Theming | 6 | 6 | 0 | 0 | 🟢 Completed |
 | 5. Dashboard & Analytics | 7 | 0 | 0 | 7 | ⬜ Not Started |
 | 6. Employee Management | 9 | 0 | 0 | 9 | ⬜ Not Started |
 | 7. Branch & Geofence Management | 8 | 0 | 0 | 8 | ⬜ Not Started |
@@ -33,7 +33,7 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **20** | **0** | **89** | **18.3% Completed** |
+| **Total** | **109** | **26** | **0** | **83** | **23.8% Completed** |
 
 ---
 
@@ -82,12 +82,12 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Map and display meaningful Firebase Auth error messages (e.g., user-not-found, wrong-password, network-request-failed)
 
 ### 4. Core UI, Theming & Reusable Widgets
-- [ ] Define comprehensive `AppTheme` (Color palette, typography, button styles, input decorations)
-- [ ] Implement custom reusable app bar, drawer, and bottom navigation bar
-- [ ] Implement `LoadingView` / shimmer indicators for async operations
-- [ ] Implement `EmptyStateWidget` with descriptive messaging and illustrations
-- [ ] Implement `ErrorStateWidget` with retry button callback
-- [ ] Implement confirmation modals, snackbars, and status badges
+- [x] Define comprehensive `AppTheme` (Color palette, typography, button styles, input decorations)
+- [x] Implement custom reusable app bar, drawer, and bottom navigation bar
+- [x] Implement `LoadingView` / shimmer indicators for async operations
+- [x] Implement `EmptyStateWidget` with descriptive messaging and illustrations
+- [x] Implement `ErrorStateWidget` with retry button callback
+- [x] Implement confirmation modals, snackbars, and status badges
 
 ### 5. Dashboard & Analytics
 - [ ] Design and build Dashboard layout with responsive grid/list
