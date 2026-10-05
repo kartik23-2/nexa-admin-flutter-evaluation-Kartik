@@ -22,7 +22,7 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 2. Firebase Configuration & Rules | 6 | 6 | 0 | 0 | 🟢 Completed |
 | 3. Authentication & Session | 7 | 7 | 0 | 0 | 🟢 Completed |
 | 4. Core UI & Theming | 6 | 6 | 0 | 0 | 🟢 Completed |
-| 5. Dashboard & Analytics | 7 | 0 | 0 | 7 | ⬜ Not Started |
+| 5. Dashboard & Analytics | 7 | 7 | 0 | 0 | 🟢 Completed |
 | 6. Employee Management | 9 | 0 | 0 | 9 | ⬜ Not Started |
 | 7. Branch & Geofence Management | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 8. Attendance & GPS Geofence Test | 9 | 0 | 0 | 9 | ⬜ Not Started |
@@ -33,7 +33,7 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 | 13. Centralized Audit Logging | 6 | 0 | 0 | 6 | ⬜ Not Started |
 | 14. Error States & Edge Cases | 8 | 0 | 0 | 8 | ⬜ Not Started |
 | 15. Testing, Verification & Submission | 7 | 0 | 0 | 7 | ⬜ Not Started |
-| **Total** | **109** | **26** | **0** | **83** | **23.8% Completed** |
+| **Total** | **109** | **33** | **0** | **76** | **30.3% Completed** |
 
 ---
 
@@ -90,13 +90,13 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 - [x] Implement confirmation modals, snackbars, and status badges
 
 ### 5. Dashboard & Analytics
-- [ ] Design and build Dashboard layout with responsive grid/list
-- [ ] Implement KPI Card: **Total Employees**
-- [ ] Implement KPI Card: **Today's Present/Absent Count**
-- [ ] Implement KPI Card: **Total Customers / Leads**
-- [ ] Implement KPI Card: **Pending Approvals Count**
-- [ ] Implement KPI Card: **Today's Collections Amount**
-- [ ] Add pull-to-refresh (`RefreshIndicator`) querying real Firestore data
+- [x] Design and build Dashboard layout with responsive grid/list
+- [x] Implement KPI Card: **Total Employees**
+- [x] Implement KPI Card: **Today's Present/Absent Count**
+- [x] Implement KPI Card: **Total Customers / Leads**
+- [x] Implement KPI Card: **Pending Approvals Count**
+- [x] Implement KPI Card: **Today's Collections Amount**
+- [x] Add pull-to-refresh (`RefreshIndicator`) querying real Firestore data
 
 ### 6. Employee Management Module
 - [ ] Employee model (`id`, `name`, `mobile`, `email`, `designation`, `branchId`, `status`, `photoUrl`, `createdAt`)

@@ -8,6 +8,8 @@ import 'screens/splash/splash_screen.dart';
 import 'services/firebase_service.dart';
 import 'state/auth_provider.dart';
 
+import 'state/dashboard_provider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.initialize();
@@ -22,6 +24,7 @@ class NexaAdminApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => DashboardProvider()),
       ],
       child: MaterialApp(
         title: 'NEXA Admin Lite',
