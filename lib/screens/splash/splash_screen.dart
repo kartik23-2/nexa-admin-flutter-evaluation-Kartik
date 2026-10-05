@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/routes/app_routes.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkInitialRoute();
+  }
+
+  Future<void> _checkInitialRoute() async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if (!mounted) return;
+    Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.primary,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.12),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.admin_panel_settings_rounded,
+                size: 64,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'NEXA ADMIN LITE',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Enterprise Administration Suite',
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.8),
+                fontSize: 14,
+                letterSpacing: 0.2,
+              ),
+            ),
+            const SizedBox(height: 48),
+            const SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
