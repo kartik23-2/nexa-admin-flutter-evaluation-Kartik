@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/routes/app_routes.dart';
 
+import 'package:provider/provider.dart';
+import '../../state/auth_provider.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -19,7 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkInitialRoute() async {
     await Future.delayed(const Duration(milliseconds: 1500));
     if (!mounted) return;
-    Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+    final auth = context.read<AuthProvider>();
+    if (auth.isAuthenticated) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.dashboard);
+    } else {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+    }
   }
 
   @override
