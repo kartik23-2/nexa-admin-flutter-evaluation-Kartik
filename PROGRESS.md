@@ -203,7 +203,7 @@ A comprehensive tracking checklist and execution guide based on the **NEXA Admin
 
 ### 15. Testing, Verification & Submission Deliverables
 - [x] Clean debug logs and unused imports
-- [x] Build release Android APK: `NEXA_Admin_Abhay.apk`
+- [x] Build release Android APK: `NEXA_Admin_Kartik.apk`
 - [x] Install and verify APK on physical Android device (ready for user evaluation)
 - [x] Verify complete auth, CRUD, geofence, and upload flows on device
 - [x] Prepare comprehensive `README.md`:
