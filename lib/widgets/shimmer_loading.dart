@@ -176,25 +176,48 @@ class ShimmerGrid extends StatelessWidget {
         mainAxisSpacing: 14,
         children: List.generate(
           itemCount,
-          (_) => Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(32),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ShimmerBox(width: 80, height: 16, borderRadius: 6),
-                SizedBox(height: 6),
-                ShimmerBox(width: 50, height: 10, borderRadius: 4),
-                Spacer(),
-                Center(
-                  child: ShimmerBox(width: 70, height: 70, borderRadius: 16),
-                ),
-                SizedBox(height: 6),
-              ],
+          (_) => ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(32),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: -20,
+                    right: -20,
+                    child: const ShimmerBox(
+                      width: 90,
+                      height: 90,
+                      borderRadius: 45,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Positioned(
+                    right: -10,
+                    bottom: -10,
+                    child: const ShimmerBox(
+                      width: 90,
+                      height: 90,
+                      borderRadius: 24,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        ShimmerBox(width: 80, height: 16, borderRadius: 6),
+                        SizedBox(height: 6),
+                        ShimmerBox(width: 50, height: 10, borderRadius: 4),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

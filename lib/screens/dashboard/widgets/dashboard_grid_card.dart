@@ -48,18 +48,18 @@ class DashboardGridCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(32),
             child: Stack(
               children: [
-                // Top-Right Accent Circle with Arrow (Exact replica of attached reference)
+                // Top-Right Accent Circle with Arrow (Centered inside the circle)
                 Positioned(
-                  top: -12,
-                  right: -12,
+                  top: -20,
+                  right: -20,
                   child: Container(
-                    width: 72,
-                    height: 72,
+                    width: 90,
+                    height: 90,
                     decoration: BoxDecoration(
                       color: accentCircleColor,
                       shape: BoxShape.circle,
                     ),
-                    alignment: const Alignment(0.15, 0.15),
+                    alignment: Alignment.center,
                     child: Icon(
                       Icons.arrow_outward_rounded,
                       color: arrowColor,
@@ -68,11 +68,27 @@ class DashboardGridCard extends StatelessWidget {
                   ),
                 ),
 
-                // Card Content (Title, Subtitle, and Big 3D Asset Illustration)
+                // Big 3D Asset Illustration placed at right bottom corner and clipped
+                Positioned(
+                  right: -10,
+                  bottom: -10,
+                  child: Hero(
+                    tag: 'grid_card_$title',
+                    child: Image.asset(
+                      assetPath,
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+
+                // Card Content (Title & Subtitle)
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 12),
+                  padding: const EdgeInsets.fromLTRB(18, 18, 52, 14),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       // Title
                       Text(
@@ -98,19 +114,6 @@ class DashboardGridCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const Spacer(),
-                      // Big 3D Illustration at bottom (Faithful to attached image)
-                      Center(
-                        child: Hero(
-                          tag: 'grid_card_$title',
-                          child: Image.asset(
-                            assetPath,
-                            height: 86,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
                     ],
                   ),
                 ),
